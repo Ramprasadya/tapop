@@ -16,7 +16,7 @@ const Home = ({isLoggedIn,setIsLoggedIn}) => {
     // eslint-disable-next-line
   }, []);
 
-  let title = auth.currentUser.displayName
+  
   
    let navigate = useNavigate();
 
@@ -43,7 +43,9 @@ const Home = ({isLoggedIn,setIsLoggedIn}) => {
    <button className='btn btn-primary' onClick={LogOut} >Logout</button>
    </div>
     
-   <h2 className="title">Hello {title} </h2>
+   <h3 className="title">{auth.currentUser.providerData.map((e)=>{
+    return <div> <p>Welcome ,{e.displayName}</p> <p>{e.email}</p> <img src={e.photoURL}  height="100px" width="100px" alt='not found' /></div>
+  })} </h3>
    <ImageUpload/>
    </>
    ):(
