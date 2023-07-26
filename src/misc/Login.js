@@ -3,25 +3,34 @@ import {auth,provider} from './config'
 import { signInWithPopup} from "firebase/auth"
 import Home from './Home'
 
-const Login = () => {
+const Login = ({isLoggedIn,setIsLoggedIn}) => {
 
     const [value, setValue] = useState('')
 
     const handleClick=()=>{
-        // Signin with google popup
+        try {
+            // Signin with google popup
      signInWithPopup(auth,provider).then((data)=>{
         setValue(data.user.email)
         // save the user email to localstorage 
-        localStorage.getItem("email",data.user.email)
+        localStorage.setItem("user",data.user.email)
+        setIsLoggedIn(true)
      })
+        } catch (error) {
+        alert("Some Error Occured : Please Try Again")
+        }
     }
   return (
-    <div >
+   <div className="container my-4 ">
+     <div className='d-flex justify-content-center' >
     
-    {value?<Home/>: //redirect to Home page After signIn Complete
-        <button onClick={handleClick} >Login with Google </button>
+   <div>
+   {value?<Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />: //redirect to Home page After signIn Complete
+        <button className='btn btn-primary '  onClick={handleClick} >Login with Google </button>
     }
+   </div>
     </div>
+   </div>
   )
 }
 

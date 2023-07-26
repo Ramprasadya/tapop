@@ -1,15 +1,19 @@
+import { useState } from "react";
 import React from "react";
-// import Images from "./misc/Images";
-// import ImageUpload from "./misc/ImageUpload";
 import Login from "./misc/Login";
+// import ImageUpload from "./misc/ImageUpload";
+// import Home from "./misc/Home";
 
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   return (
     <>
-     
-      <Login/>
+    {/* <Home/>
+     <ImageUpload/> */}
+      <Login  props isLoggedIn= {isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
     </>
   );
 }

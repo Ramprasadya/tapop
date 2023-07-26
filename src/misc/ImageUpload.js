@@ -7,7 +7,7 @@ const ImageUpload = () => {
   
     const [imageUpload, setImageUpload] = useState("");
     const [imageList,setImageList] =useState([])
-
+    
     const imageListRef = ref(storage,"images/");
 
 const uploadImage=async()=>{
@@ -42,17 +42,28 @@ useEffect(()=>{
     
     <>
      
-     <div>
+     <div className="container my-3" >
      
+     <div className="mb-3">
+  <label htmlFor="formFileMultiple" className="form-label">Upload your images</label>
+  <input className="form-control" type="file" id="formFileMultiple" onChange={(event)=>{setImageUpload(event.target.files[0])} } multiple/>
+  <button className='btn btn-success my-2 '  onClick={uploadImage} >Upload Image</button>
+  </div>
       
-        <input type="file" onChange={(event)=>{setImageUpload(event.target.files[0])} }    />
-        <button  onClick={uploadImage} >Upload Image</button>
+       
+       
         
-        {
+      <div className="row">
+      {
             imageList.map((url)=>{
-                return <img src={url} alt="Not Found " />
+                return <div className='col-md-4' > <img className='my-2 uploaded-image' src={url} alt=" Please Wait  " /></div>
             })
         }
+
+      </div>
+    
+
+
      </div>
 
     </>
