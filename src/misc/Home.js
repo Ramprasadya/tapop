@@ -1,9 +1,8 @@
 import React ,{useEffect} from 'react'
 import ImageUpload from './ImageUpload'
 import {auth} from "./config"
-import { useNavigate } from 'react-router-dom'
 import "./style.css"
-const Home = ({isLoggedIn,setIsLoggedIn}) => {
+const Home = () => {
   
 
   useEffect(() => {
@@ -11,19 +10,19 @@ const Home = ({isLoggedIn,setIsLoggedIn}) => {
     const userData = localStorage.getItem('user');
     if (userData) {
       // If data exists, set isLoggedIn to true
-      setIsLoggedIn(true);
+      
     }
     // eslint-disable-next-line
   }, []);
 
   
   
-   let navigate = useNavigate();
+ 
 
 
     const LogOut=()=>{
         //Clear the user data from localstorage for logout 
-        localStorage.clear()
+        localStorage.removeItem('user')
         // It will reload page after clearing the data from localstorage
         window.location.reload()
        
@@ -37,22 +36,19 @@ const Home = ({isLoggedIn,setIsLoggedIn}) => {
     <div className='Container' >
     
    
-   {isLoggedIn ? (
+   
     <>
    <div className=" " >
    <button className='btn btn-primary' onClick={LogOut} >Logout</button>
    </div>
     
    <h3 className="title">{auth.currentUser.providerData.map((e)=>{
-    return <div> <p>Welcome ,{e.displayName}</p> <p>{e.email}</p> <img src={e.photoURL}  height="100px" width="100px" alt='not found' /></div>
+    return <div key={e.uid} > <img className="rounded-3xl" src={e.photoURL}  height="100px" width="100px" alt='not found' /> <p>Welcome ,{e.displayName}</p> <p>{e.email}</p> </div>
   })} </h3>
    <ImageUpload/>
    </>
-   ):(
-   <>
-    {navigate("/login")}
-   </>
-   )}
+  
+   
     </div>
   )
 }

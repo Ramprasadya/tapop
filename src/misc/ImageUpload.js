@@ -1,40 +1,69 @@
 import React, { useEffect, useState } from 'react'
-import { storage } from './config';
+import { auth, storage } from './config';
 import {ref,uploadBytes ,listAll, getDownloadURL} from "firebase/storage"
-import { v4 } from 'uuid';
+//import { v4 } from 'uuid';
 import "./style.css"
 const ImageUpload = () => {
   
-    const [imageUpload, setImageUpload] = useState("");
-    const [imageList,setImageList] =useState([])
+    // const [imageUpload, setImageUpload] = useState("");
+    // const [imageList,setImageList] =useState([])
     
-    const imageListRef = ref(storage,"images/");
+    //const imageListRef = ref(storage,"images/");
+    const [images, setImages] = useState([]);
+     const [image, setImage] = useState(null);
+  const [url, setUrl] = useState('');
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  
 
 const uploadImage=async()=>{
-   console.log(" before image data-"+imageUpload)
-    if(imageUpload == null)return;
-    console.log("After image data-"+imageUpload)
-    const imageRef = await ref(storage,`images/${imageUpload.name +v4()}`); 
-    await uploadBytes(imageRef,imageUpload).then((snapshot)=>{
-        console.log("File uploaded-")
-        console.log("File data-"+snapshot)
-        getDownloadURL(snapshot.ref).then((url)=>{
-            setImageList((prev)=>[...prev,url])
-        })
-    })
+     if (image) {
+      
+      const user = auth.currentUser; // Get the current signed-in user
+      if (user) {
+        console.log(" before image data-")
+        // Use the user's UID as the folder name
+        const userStorageRef = await ref(storage,`users/${user.uid}/${image.name}`);
+        console.log("After image data-")
+        await uploadBytes(userStorageRef,image).then((snapshot) => {
+          console.log('Image uploaded successfully');
+           getDownloadURL(snapshot.ref).then((downloadUrl) => {
+            setUrl(downloadUrl);
+          });
+        });
+      }
+    }else{
+        console.log("Error found in Upload Images ")
+    }
+
 }
 
 
 useEffect(()=>{
-    
-    listAll(imageListRef).then((res)=>{
-        res.items.forEach((item)=>{
-            getDownloadURL(item).then((url)=>{
-                setImageList((prev)=>[...prev,url])
-            })
-        })
-    })
-    // eslint-disable-next-line
+    const fetchImages = async () => {
+        
+        const user = auth.currentUser;
+        if (user) {
+          const imagesRef = ref(storage,`users/${user.uid}`);
+           await listAll(imagesRef).then((res)=>{
+             res.items.forEach((item)=>{
+             getDownloadURL(item).then((url)=>{
+                setImages((prev)=>[...prev ,url])
+             })
+             })
+           })
+        }
+      };
+  
+    fetchImages();
+
+//     // eslint-disable-next-line
 },[])
 
 
@@ -46,7 +75,7 @@ useEffect(()=>{
      
      <div className="mb-3">
   <label htmlFor="formFileMultiple" className="form-label">Upload your images</label>
-  <input className="form-control" type="file" id="formFileMultiple" onChange={(event)=>{setImageUpload(event.target.files[0])} } multiple/>
+  <input className="form-control" type="file" id="formFileMultiple" onChange={ handleImageChange} multiple/>
   <button className='btn btn-success my-2 '  onClick={uploadImage} >Upload Image</button>
   </div>
       
@@ -54,9 +83,11 @@ useEffect(()=>{
        
         
       <div className="row">
+
+      {/* {url && <img src={url} alt="Uploaded" style={{ maxWidth: '200px', marginTop: '20px' }} />} */}
       {
-            imageList.map((url)=>{
-                return <div className='col-md-4' > <img className='my-2 uploaded-image' src={url} alt=" Please Wait  " /></div>
+            images.map((url,index)=>{
+                return <div className='col-md-4' key={index} > <img className='my-2 uploaded-image' src={url} alt=" Please Wait  " /></div>
             })
         }
 
