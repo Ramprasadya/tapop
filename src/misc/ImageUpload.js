@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { auth, storage } from './config';
+import { auth,storage } from './config';
 import {ref,uploadBytes ,listAll, getDownloadURL} from "firebase/storage"
-//import { v4 } from 'uuid';
+
 import "./style.css"
 const ImageUpload = () => {
   
-    // const [imageUpload, setImageUpload] = useState("");
-    // const [imageList,setImageList] =useState([])
-    
-    //const imageListRef = ref(storage,"images/");
+   
     const [images, setImages] = useState([]);
      const [image, setImage] = useState(null);
   const [url, setUrl] = useState('');
@@ -69,35 +66,33 @@ useEffect(()=>{
 
   return (
     
-    <>
+    <div className='bg-purple-50' >
      
-     <div className="container my-3" >
+     <div className="place-content-center flex my-10" >
      
      <div className="mb-3">
-  <label htmlFor="formFileMultiple" className="form-label">Upload your images</label>
-  <input className="form-control" type="file" id="formFileMultiple" onChange={ handleImageChange} multiple/>
-  <button className='btn btn-success my-2 '  onClick={uploadImage} >Upload Image</button>
+  <label htmlFor="formFileMultiple" className="font-extrabold text-black text-center text-2xl ">Upload your images</label><br />
+  <input className="py-5 my-5 px-5 bg-blue-600 text-white rounded-2xl " type="file" id="formFileMultiple" onChange={ handleImageChange} multiple/>
+  <button className=' ml-10 px-4 py-3 bg-green-500 text-white rounded-xl '  onClick={uploadImage} >Upload Image</button>
   </div>
-      
-       
-       
-        
-      <div className="row">
-
-      {/* {url && <img src={url} alt="Uploaded" style={{ maxWidth: '200px', marginTop: '20px' }} />} */}
-      {
-            images.map((url,index)=>{
-                return <div className='col-md-4' key={index} > <img className='my-2 uploaded-image' src={url} alt=" Please Wait  " /></div>
-            })
-        }
-
-      </div>
-    
-
 
      </div>
 
-    </>
+
+     <div className="image ">
+     <div className=" flex flex-wrap pl-24 ">
+
+{/* {url && <img src={url} alt="Uploaded" style={{ maxWidth: '200px', marginTop: '20px' }} />} */}
+{
+      images.map((url,index)=>{
+          return <div className='col-md-4' key={index} > <img className='my-2 mx-8 h-72' src={url} alt=" Please Wait  " /></div>
+      })
+  }
+
+</div>
+</div>
+
+    </div>
 
   )
 }

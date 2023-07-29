@@ -1,52 +1,55 @@
-import React ,{useEffect} from 'react'
-import ImageUpload from './ImageUpload'
-import {auth} from "./config"
+import React from "react";
+import { useNavigate } from "react-router";
+import { useUserAuth } from "../Context/userAuthContext"
+import { auth } from "./config";
 import "./style.css"
+import ImageUpload from "./ImageUpload"
 const Home = () => {
   
 
-  useEffect(() => {
-    // Check if user data exists in local storage
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      // If data exists, set isLoggedIn to true
-      
+  const { logOut } = useUserAuth();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
     }
-    // eslint-disable-next-line
-  }, []);
-
-  
-  
- 
-
-
-    const LogOut=()=>{
-        //Clear the user data from localstorage for logout 
-        localStorage.removeItem('user')
-        // It will reload page after clearing the data from localstorage
-        window.location.reload()
-       
-    }
-
+  };
 
   
 
 
   return (
-    <div className='Container' >
+    <div className=' bg-purple-50 ' >
     
+   <div className='flex h-22 justify-center ' >
    
-   
-    <>
-   <div className=" " >
-   <button className='btn btn-primary' onClick={LogOut} >Logout</button>
-   </div>
-    
+    <div className='mx-52' >
+          
    <h3 className="title">{auth.currentUser.providerData.map((e)=>{
-    return <div key={e.uid} > <img className="rounded-3xl" src={e.photoURL}  height="100px" width="100px" alt='not found' /> <p>Welcome ,{e.displayName}</p> <p>{e.email}</p> </div>
+    return <div key={e.uid} > <img className="rounded-3xl h-10" src={e.photoURL}   alt='not found' /> <p>Welcome ,{e.displayName ||e.email }</p> </div>
   })} </h3>
+    </div>
+
+  
+  <div className=" mx-48 " >
+   <button className='px-4  py-4 bg-blue-500 text-white rounded-md ' onClick={handleLogout} >Logout</button>
+   </div>
+  
+
+
+
+
+   </div>
+   
+    
+   
+
+
    <ImageUpload/>
-   </>
+   
   
    
     </div>
