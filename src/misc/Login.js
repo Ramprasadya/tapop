@@ -34,26 +34,30 @@ const Login = () => {
 
 
   return (
-   <>
+   <div className="h-1/2 w-1/2 mx-auto bg-purple-200 " >
    {error && <p>{error}</p>}
-    <h2 className="mb-3">Firebase Auth Login</h2>
+    <h2 className="text-center my-3 font-bold text-3xl ">Firebase Auth Login</h2>
+    <div className="flex justify-center my-4 " >
     <form onSubmit={handleSubmit} >
-    <label htmlFor="">Enter Yor Email</label><br />
-      <input type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)}   /> <br />
-      <label htmlFor="">Enter your Password</label><br />
-      <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}  /> <br />
-    <button type="submit"  className='bg-red-200 py-4 px-4 rounded-md '  >Login</button>
+    
+      <input className="px-4 py-3 rounded-sm"  type="email" placeholder="Email Address" onChange={(e)=>setEmail(e.target.value)}   /> <br />
+      
+      <input className="px-4 my-4 py-3 rounded-sm" type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}  /> <br />
+    <div className="my-2" >
+    <button type="submit"  className='bg-blue-500 py-3 px-4 rounded-md text-white '  >Login</button>
+    <button className="py-3 mx-4 px-4 bg-green-500 text-white rounded-md "  onClick={handleGoogleSignIn} >Login With Google</button>
+    </div>
     </form>
+    </div>
 
-    <button onClick={handleGoogleSignIn} >Login With Google</button>
 
 
-    <div className="p-4 box mt-3 text-center">
-        Don't have an account? <Link to="/signup">Sign up</Link>
+    <div className="p-4 box mb-3 text-center">
+        Don't have an account? <Link className="bg-blue-500 py-3 px-4 rounded-md text-white " to="/signup">Sign up</Link>
       </div>
 
     
-</>
+</div>
   )
 }
 

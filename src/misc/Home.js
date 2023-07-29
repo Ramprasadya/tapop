@@ -4,6 +4,7 @@ import { useUserAuth } from "../Context/userAuthContext"
 import { auth } from "./config";
 import "./style.css"
 import ImageUpload from "./ImageUpload"
+import notFound from "./not-found.png"
 const Home = () => {
   
 
@@ -22,14 +23,14 @@ const Home = () => {
 
 
   return (
-    <div className=' bg-purple-50 ' >
+    <div className=' bg-purple-50 my-4 ' >
     
    <div className='flex h-22 justify-center ' >
    
     <div className='mx-52' >
           
    <h3 className="title">{auth.currentUser.providerData.map((e)=>{
-    return <div key={e.uid} > <img className="rounded-3xl h-10" src={e.photoURL}   alt='not found' /> <p>Welcome ,{e.displayName ||e.email }</p> </div>
+    return <div key={e.uid} > <img className="rounded-3xl h-10" src={e.photoURL || notFound}   alt='not found' /> <p>Welcome, {e.displayName ||e.email }</p> </div>
   })} </h3>
     </div>
 

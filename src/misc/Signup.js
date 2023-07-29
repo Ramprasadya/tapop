@@ -25,22 +25,25 @@ const Signup = () => {
 
     
   return (
-   <div className="container my-4">
+   <div className="h-1/2 w-1/2 mx-auto bg-purple-200 ">
     {error && <p>{error}</p> }
+    <h2 className="text-center my-3 font-bold text-3xl ">Firebase Auth Login</h2>
+   <div className="flex justify-center my-4" >
    <form action="">
-    <label htmlFor="">Enter Your Email</label>
-   <input  type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
-    <label htmlFor="">Enter Your Password</label>
-   <input  type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-
-   <div>
-    <button type="submit" onClick={handleSubmit} >Sign up</button>
+    
+    <input className="px-4 py-3 rounded-sm"  type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} /> <br/>
+     
+    <input  className="px-4 my-3 py-3 rounded-sm" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+ 
+    <div>
+     <button className='bg-blue-500 py-3 px-4 rounded-md text-white '  type="submit" onClick={handleSubmit} >Sign up</button>
+    </div>
+ 
+    </form>
    </div>
 
-   </form>
-
    <div className="p-4 box mt-3 text-center">
-        Already have an account? <Link to="/">Log In</Link>
+        Already have an account? <Link className="bg-blue-500 py-3 px-3 rounded-md text-white " to="/">Log In</Link>
     </div>
 
 
